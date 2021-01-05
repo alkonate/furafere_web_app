@@ -1,0 +1,12 @@
+{
+    "/js/app.js": "/js/app.js",
+    "/css/app.css": "/css/app.css",
+    "/js/jquery.min.js": "/js/jquery.min.js",
+    "/js/bootstrap-4-autocomplete.min.js": "/js/bootstrap-4-autocomplete.min.js",
+    "/js/jquery.typeahead.min.js": "/js/jquery.typeahead.min.js",
+    "/css/jquery.typeahead.min.css": "/css/jquery.typeahead.min.css",
+    "/js/autoNumeric.min.js": "/js/autoNumeric.min.js",
+    "/js/Chart.bundle.min.js": "/js/Chart.bundle.min.js",
+    "/js/quagga.min.js": "/js/quagga.min.js",
+    "/js/zxing.min.js": "/js/zxing.min.js"
+}
