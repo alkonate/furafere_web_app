@@ -41,7 +41,15 @@ new Cleave('#ProviderTelephone2',{
     phoneRegionCode : 'SN',
 });
 //new provider template
-var newProviderTemplate = '';
+// var newProviderTemplate = '';
+
+// URL object
+var params = new URLSearchParams(location.search);
+// if action == new provider is set in URL show the modal to start
+// creating a new provider
+if(params.get('action') == 'new'){
+    $('#newProviderFormBtn').click();
+}
 
 //event on add provider send ajax request
 $('#addProvider').on('click',function(e) {
@@ -73,4 +81,8 @@ Echo.private('App.User.admin').listen('.ProductProviderCreatedEvent',function(e)
     updateItemList(e.providerCreated.updateRoute,e.providerCreated,templateProvider);
     updateItemCount(e.count);
     Notyf.success(e.message);
+    // if new is set in the URL return back to the previous URL
+    if(params.get('action') == 'new'){
+        window.location.href = document.referrer;
+    }
 });

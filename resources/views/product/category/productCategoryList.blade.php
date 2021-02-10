@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header"><i class="fas fa-book-medical fa-lg fa-fw"></i>{{__('Products List')}}</div>
+                    <div class="card-header"><i class="fas fa-book-medical fa-lg fa-fw"></i><a href="{{route('dashboard')}}" class="p-2 badge badge-secondary">{{__('Dashboard')}}</a><span class="ml-2 mr-2 font-weight-bold border p-1 bg-light text-dark">|></span><a href="#" class="p-2 badge badge-light">{{__('Categories')}}</a></div>
                     <div class="card-body">
 
                          {{-- delete mutiple item and item count --}}
@@ -19,14 +19,16 @@
 
                         <div class="row justify-content-center">
 
-                            <button id="newCategoryFormBtn" type="button" class="btn btn-light btn-new-item" data-toggle="modal" data-target="#modalAddCategory">
-                                <div class="card shadow rounded">
-                                    <div class="card-body overflow-hidden">
-                                    <i class="fas fa-folder-plus fa-10x" aria-hidden="true"></i>
+                            @if (!request()->has('search'))
+                                <button id="newCategoryFormBtn" type="button" class="btn btn-light btn-new-item" data-toggle="modal" data-target="#modalAddCategory">
+                                    <div class="card shadow rounded">
+                                        <div class="card-body overflow-hidden">
+                                        <i class="fas fa-folder-plus fa-10x" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="card-footer bg-success text-white">{{__('New Category')}}</div>
                                     </div>
-                                    <div class="card-footer bg-success text-white">{{__('New Category')}}</div>
-                                </div>
-                            </button>
+                                </button>
+                            @endif
 
                             @foreach ($categories as $category)
 

@@ -2,7 +2,7 @@
 
 @section('header')
     {{-- pass the product type across pages --}}
-    <meta name="type_id" content="{{ $type }}">
+    <meta name="type_id" content="{{ $category->id }}">
 @endsection
 
 @section('content')
@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header"><i class="fas fa-book-medical fa-lg fa-fw"></i>{{__('Products List')}}</div>
+                    <div class="card-header"><i class="fas fa-book-medical fa-lg fa-fw"></i><a href="{{route('dashboard')}}" class="p-2 badge badge-secondary">{{__('Dashboard')}}</a><span class="ml-2 mr-2 font-weight-bold border p-1 bg-light text-dark">|></span><a href="{{route('product.category.list')}}" class="p-2 badge badge-secondary">{{__('Categories')}}</a><span class="ml-2 mr-2 font-weight-bold border p-1 bg-light text-dark">|></span><a href="#" class="p-2 badge badge-light">{{$category->type}}</a></div>
                     <div class="card-body">
                         {{-- delete mutiple item and item count --}}
                         <div class="row justify-content-between mb-4">
@@ -24,14 +24,16 @@
 
                         <div class="row justify-content-center">
 
-                            <button id="newProductFormBtn" type="button" class="btn btn-light btn-new-item" data-toggle="modal" data-target="#modalAddProduct">
-                                <div class="card shadow rounded">
-                                    <div class="card-body overflow-hidden">
-                                    <i class="fas fa-folder-plus fa-10x" aria-hidden="true"></i>
+                            @if (!request()->has('search'))
+                                <button id="newProductFormBtn" type="button" class="btn btn-light btn-new-item" data-toggle="modal" data-target="#modalAddProduct">
+                                    <div class="card shadow rounded">
+                                        <div class="card-body overflow-hidden">
+                                        <i class="fas fa-folder-plus fa-10x" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="card-footer bg-success text-white">{{__('New Product')}}</div>
                                     </div>
-                                    <div class="card-footer bg-success text-white">{{__('New Product')}}</div>
-                                </div>
-                            </button>
+                                </button>
+                            @endif
 
                             @foreach ($products as $product)
 
@@ -47,7 +49,7 @@
                                                 <i class="fas fa-edit fa-2x"></i>
                                             </a>
                                             <div class="row overflow-hidden justify-content-center">
-                                                <a href="{{route('product.stock.list',$product->id)}}">
+                                                <a href="{{route('product.stock.list',$product->id) . '?stock=available'}}">
                                                     <img class="product-placeholder-anim" src="{{$product->getthumbnail()}}" width="200" height="200" alt="{{$product->type}}">
                                                 </a>
                                             </div>

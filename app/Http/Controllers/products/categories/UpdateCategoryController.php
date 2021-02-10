@@ -24,7 +24,7 @@ class UpdateCategoryController extends Controller
             'type',
         ];
 
-        return $this->updateItem('product_type',$categoryId,$this->rules,$newModal,$uniqueField,'UpdateCategory');
+        return response()->json($this->updateItem('product_type',$categoryId,$this->rules,$newModal,$uniqueField,'UpdateCategory'));
 
     }
 }

@@ -16,7 +16,7 @@ class ManageProductsController extends Controller
 {
     use ItemTrait;
 
-    protected $per_page = 5;
+    protected $per_page = 10;
 
      /**
      * show a list of different products present in a category
@@ -37,7 +37,7 @@ class ManageProductsController extends Controller
         return view('product.Productslist')->with([
             'products' => $products,
             'count' => $products->total(),
-            'type' => $categoryId,
+            'category' => ProductType::find($categoryId),
         ]);
     }
 
@@ -71,7 +71,7 @@ class ManageProductsController extends Controller
     }
 
      /**
-     * Provider info AJAX
+     * Product info AJAX
      * @param mixed $productId
      *
      * @return [type]

@@ -8,10 +8,11 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ProductCreatedEvent implements shouldBroadcast
+class ProductCreatedEvent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -33,7 +34,8 @@ class ProductCreatedEvent implements shouldBroadcast
             'thumbnail' => $product->getthumbnail(),
             'deleteRoute' => route('product.delete',$product->id),
             'updateRoute' => route('product.update',$product->id),
-            'viewRoute' => route('product.view',$product->id),
+            'viewRoute' => route('product.stock.list',$product->id) . '?stock=available',
+            'infoRoute' => route('product.view',$product->id),
             'stock' => $product->stocks()->count(),
         ];
         $this->message = __('notyf.product.created',['name' => $product->name]);

@@ -6,7 +6,7 @@
     <div class="row justify-content-center">
         <div class="col-12">
             <div class="card">
-                <div class="card-header">{{__('Dashboard')}}</div>
+                <div class="card-header"><i class="fas fa-book-medical fa-lg fa-fw"></i><a href="#" class="p-2 badge badge-light">{{__('Dashboard')}}</a></div>
                 <div class="card-body">
                     <div class="d-md-flex flex-wrap justify-content-between">
 

@@ -36,7 +36,7 @@ class UpdateProviderController extends Controller
             'name',
         ];
 
-        return $this->updateItem('provider',$providerId,$this->rules,$newModal,$uniqueField);
+        return response()->json($this->updateItem('provider',$providerId,$this->rules,$newModal,$uniqueField));
 
     }
 }

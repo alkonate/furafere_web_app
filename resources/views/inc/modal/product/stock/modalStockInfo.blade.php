@@ -1,4 +1,4 @@
-<div class="modal fade" id="stockView" tabindex="-1" role="dialog" aria-labelledby="stockViewTitleId" aria-hidden="true">
+<div class="modal fade" id="modalStockView" tabindex="-1" role="dialog" aria-labelledby="modalStockViewTitleId" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
                 <div class="modal-header">

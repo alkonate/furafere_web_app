@@ -17,6 +17,7 @@ class CreateStocksTable extends Migration
             $table->id();
             $table->integer('product_id')->unsigned();
             $table->integer('provider_id')->unsigned();
+            $table->string('barcode')->unique();
             $table->boolean('locked')->nullable();
             $table->timestamps();
 

@@ -38,6 +38,14 @@ class newProductAddedNotification extends Notification implements ShouldBroadcas
     }
 
     /**
+     * Specify the type/name of the notification
+     * @return [type]
+     */
+    public function broadcastType(){
+        return 'newProductAddedNotification';
+    }
+
+    /**
      * save new product notification into the db.
      * @param mixed $notifiable
      *
@@ -76,11 +84,6 @@ class newProductAddedNotification extends Notification implements ShouldBroadcas
      */
     public function toArray($notifiable)
     {
-        return [
-            'message' => 'New product created',
-            'product_id' => $this->newProduct->id,
-            'product_name' => $this->newProduct->name,
-            'product_thumbnail' => $this->newProduct->getThumbnail(true),
-        ];
+       //
     }
 }

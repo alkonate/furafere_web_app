@@ -1,20 +1,22 @@
 <?php
 
-namespace App\Events;
+namespace App\Events\product\stock;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ProductStockDeletedEvent implements ShouldBroadcast
+class StockLockedEvent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $stockDeleted;
+    public $stockLocked;
+    public $locked;
     public $message;
 
     /**
@@ -24,8 +26,13 @@ class ProductStockDeletedEvent implements ShouldBroadcast
      */
     public function __construct($stock)
     {
-        $this->stockDeleted = route('product.stock.delete',$stock->id);
-        $this->message = __('notyf.stock.deleted',['stock_created_at' => $stock->created_at]);
+        $this->stockLocked = route('product.stock.lock',$stock->id);
+        $this->locked = $stock->locked;
+        if($this->locked){
+            $this->message = __('notyf.stock.locked',['stock_created_at' => $stock->created_at]);
+        }else{
+            $this->message = __('notyf.stock.unlocked',['stock_created_at' => $stock->created_at]);
+        }
     }
 
     /**
@@ -36,5 +43,9 @@ class ProductStockDeletedEvent implements ShouldBroadcast
     public function broadcastOn()
     {
         return new PrivateChannel('App.User.admin');
+    }
+
+    public function broadcastAs(){
+        return "stockLockedEvent";
     }
 }

@@ -10,19 +10,17 @@
             </div>
             <div class="modal-body" style="position: static">
                 {{-- ZxingJS --}}
-                <div id="interactive" class="viewport">
+                {{-- <div id="interactive" class="viewport">
                     <video id="videoViewport"></video>
-                </div>
+                </div> --}}
 
                 {{-- QuaggaJS --}}
-				{{-- <div id="interactive" class="viewport"></div>
-				<div class="error"></div> --}}
+				<div id="interactive" class="viewport">
+
+                </div>
+				<div class="error"></div>
 			</div>
             <div class="modal-footer">
-                <label class="btn btn-default pull-left">
-					<i class="fa fa-camera"></i> {{__('Use camera app')}}
-					<input type="file" accept="image/*;capture=camera" capture="camera" class="hidden" />
-				</label>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
 			</div>
             </div>

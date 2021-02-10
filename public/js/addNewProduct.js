@@ -1,5 +1,5 @@
 //product template
-var templateProduct = '<div class="card m-4 p-0 shadow rounded" style="width: 250px">'+
+var templateProduct = '<div class="card m-4 p-0 shadow rounded border border-info" style="width: 250px">'+
                             '<div class="card-body overflow-hidden">'+
                                         '<div class=" btn mr-1 p-0 dashboard-item shadow rounded">'+
                                             '<input type="checkbox" class="btn btn-light option-input cursor checkbox checkbox-2x" id=":id">'+
@@ -16,9 +16,8 @@ var templateProduct = '<div class="card m-4 p-0 shadow rounded" style="width: 25
                                             '</a>'+
                                         '</div>'+
                             '</div>'+
-                            '<a href="viewRoute" onclick="viewProductInfo(event);" type="button" data-toggle="modal" data-target="#productView" class="dashboard-item btn btn-light">'+
+                            '<a href=":infoRoute" onclick="viewProductInfo(event);" type="button" data-toggle="modal" data-target="#productView" class="dashboard-item btn btn-light">'+
                                 '<div class="card-footer bg-primary text-white">'+
-
                                     '<div class="row justify-content-center-between flex-nowrap card-footer-max-height shadow rounded">'+
                                         '<div class="col-11 flex-grow-0 bg-success ">'+
                                             '<div class="row">'+
@@ -34,7 +33,7 @@ var templateProduct = '<div class="card m-4 p-0 shadow rounded" style="width: 25
                                         '</div>'+
                                         '<div class="col-1 bg-secondary">:stock</div>'+
                                     '</div>'+
-                                '</div>+'
+                                '</div>'+
                             '</a>'+
                         '</div>';
 

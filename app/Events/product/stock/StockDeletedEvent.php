@@ -1,22 +1,24 @@
 <?php
 
-namespace App\Events;
+namespace  App\Events\product\stock;
 
+use App\Stock;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ProductNewStockCreatedEvent implements ShouldBroadcast
+class StockDeletedEvent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $stock;
-    public $stockPrice;
-    public $createdAtFormated;
+    public $stockDeleted;
+    public $message;
+    public $count;
 
     /**
      * Create a new event instance.
@@ -25,9 +27,12 @@ class ProductNewStockCreatedEvent implements ShouldBroadcast
      */
     public function __construct($stock)
     {
-        $this->stock = $stock;
-        $this->createdAtFormated = $stock->created_at;
-        $this->stockPrice = $stock->stockPrice()->first();
+        // use the route to identify the stock been deleted
+        $this->stockDeleted = route('product.stock.delete',$stock->id);
+        $this->message = __('notyf.stock.deleted',['stock_created_at'=>$stock->created_at]);
+
+        $count = Stock::where('product_id',$stock->product_id)->count();
+        $this->count = __("item.stock.count",['count'=>$count]);
     }
 
     /**
@@ -40,4 +45,7 @@ class ProductNewStockCreatedEvent implements ShouldBroadcast
         return new PrivateChannel('App.User.admin');
     }
 
+    public function broadcastAs(){
+        return 'StockDeletedEvent';
+    }
 }

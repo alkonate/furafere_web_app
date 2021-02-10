@@ -17,7 +17,7 @@ trait ItemTrait
      * item name you want to delete min sing.
      * @param mixed $request
      *request object received.
-     * @return [type]
+     * @return array
      */
     public function deleteMultipleItem($item,$request){
         if(Hash::check($request->deleteItemPasswordInput,auth()->user()->password)){
@@ -26,32 +26,32 @@ trait ItemTrait
                 ['id' => 'exists:'.$item.'s,id']
             ];
 
-            $modelName = 'App\\'. Str::camel(ucfirst($item));
+            $modelName = 'App\\'. ucfirst(Str::camel($item));
 
             foreach($request->id as $id){
                 $validator = Validator::make(['id' => $id,],$rules);
 
                 if($validator->fails()){
-                    return response()->json([
+                    return [
                         'error' => true,
                         'messages' => __('notyf.invalid.item',['item'=>$item,'id'=>$id]),
-                    ]);
+                    ];
                     die();
                 }
 
                 $modelName::find($id)->delete();
-                 // broadcast(new ProductProviderDeletedEvent($modal));
+
                }
 
-               return response()->json([
+               return [
                 'success' => true,
-                ]);
+                ];
 
             }else{
-               return response()->json([
+               return [
                    'invalid' => true,
                    'messages' => ['deleteItemPasswordInput' => __('Invalid password.')],
-               ]);
+               ];
             }
     }
 

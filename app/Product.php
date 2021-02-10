@@ -37,7 +37,7 @@ class Product extends Model
      * @return [type]
      */
     public function productType(){
-        return $this->belongTo('App\ProductType');
+        return $this->belongsTo('App\ProductType','type_id');
     }
 
     /**

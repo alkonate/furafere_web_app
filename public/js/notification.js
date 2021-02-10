@@ -1,19 +1,26 @@
 $(document).ready(updateNotifcationBell());
 
-//trigger new notification
+var newProductTemplate =  '<a href="#" class="content bg-primary">'+
+                                '<div class="notification-item row">'+
+                                    '<img src=":thumbnail" alt="" class="mr-2">'+
+                                    '<h4 class="item-title">:name</h4>'+
+                                    '<p class="item-info">:message</p>'+
+                                '</div>'+
+                          '</a>';
+var newStockTemplate =  '<a href="#" class="content bg-primary">'+
+                            '<div class="notification-item row">'+
+                                '<img src=":thumbnail" alt="" class="mr-2">'+
+                                '<h4 class="item-title">:name</h4>'+
+                                '<p class="item-info">:message</p>'+
+                                '<p class="item-info">:itemCount</p>'+
+                            '</div>'+
+                        '</a>';
+
+//listening for notification on user private channel
 Echo.private('App.User.' + laravel.user_id).notification(notification=>{
 
     let number = parseInt ($('.notification-number').text());
     $('.notification-number').text(number+1);
-
-    // !!!!!YOU CAN REFACTOR THIS PART BY USING THE format String METHOD helper!!!!!!
-  let notif_item =  '<a href="#" class="content bg-primary">'+
-                        '<div class="notification-item row">'+
-                            '<img src="' + notification.product_thumbnail +'" alt="" class="mr-2">'+
-                            '<h4 class="item-title">' + notification.product_name + '</h4>'+
-                            '<p class="item-info">' + notification.message + '</p>'+
-                        '</div>'+
-                    '</a>';
 
     //Dropdown close update notif
     if(!$('.notificationContainer').hasClass('show')){
@@ -24,7 +31,28 @@ Echo.private('App.User.' + laravel.user_id).notification(notification=>{
     //remove empty notif placeholder
     $('.no-notification').remove();
     //add new notif
-    $('.notifications-wrapper').prepend(notif_item);
+    if(notification.type=="newProductAddedNotification"){
+        $('.notifications-wrapper').prepend(newProductTemplate.format({
+            'thumbnail' : notification.product_thumbnail,
+            'name' : notification.product_name,
+            'message' : notification.message,
+        }));
+    }
+    else if (notification.type=="newStockAddedNotification"){
+
+        $('.notifications-wrapper').prepend(newStockTemplate.format({
+            'thumbnail' : notification.product_thumbnail,
+            'name' : notification.product_name,
+            'message' : notification.message,
+            'itemCount' : notification.item_count,
+        }));
+    }
+    else if (notification.type=="itemExpiredNotification"){
+        console.log(notification);
+    }
+    else if (notification.type=="itemAlmostExpiredNotification"){
+        console.log(notification);
+    }
 });
 
 //update the bell icon and count
@@ -63,7 +91,6 @@ function deleteAllNotificationsOfUser() {
             method:"GET",
             contentType:"application/json",
             }).done(function(result){
-                result = JSON.parse(result);
                 $('.notification-number').text(result.number);
                 updateNotifcationBell();
             }).fail(function(xhr,status,error){

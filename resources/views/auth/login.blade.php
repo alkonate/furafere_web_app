@@ -24,7 +24,7 @@
                 FURAféré
             </div>
             <div class="col-6 text-white align-items-center">
-                @Copyright App version 1.1
+                @Copyright App version 1.0.0
             </div>
         </div>
 
@@ -46,7 +46,9 @@
                            </div>
 
                            <script>
-                             $(".alert").alert();
+                             window.onload = function(){
+                                 $(".alert").alert();
+                             };
                            </script>
                         @enderror
 
@@ -65,7 +67,9 @@
                            </div>
 
                            <script>
-                             $(".alert").alert();
+                             window.onload = function(){
+                                 $(".alert").alert();
+                             };
                            </script>
                         @enderror
                         <div class="form-check">

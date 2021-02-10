@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Jobs\checkForExpiredItems;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -24,7 +25,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        // check and notify admin users for expired and expired soon items
+        // $schedule->job(new checkForExpiredItems)->everyMinute();
     }
 
     /**

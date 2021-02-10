@@ -27,10 +27,11 @@ return [
     'product.deleted' => "The product :name has been deleted successfully.",
     'product.updated' => "The product :name has been updated successfully.",
     //stock notif
-    'stock.locked' => "The stock created at :stock_created_at has been locked.",
-    'stock.unlocked' => "The stock created at :stock_created_at has been unlocked.",
-    'stock.created' => "The stock has been created at :stock_created_at.",
-    'stock.deleted' => "The stock created at :stock_created_at has been deleted.",
+    'stock.locked' => "The stock created at :stock_created_at has been locked successfully.",
+    'stock.unlocked' => "The stock created at :stock_created_at has been unlocked successfully.",
+    'stock.created' => "The stock has been created successfully.",
+    'stock.deleted' => "The stock created at :stock_created_at has been deleted successfully.",
+    'stock.updated' => "The stock created at :stock_created_at has been deleted successfully.",
 
     //item notif
     'invalid.item' => "Invalid :item id :id.",

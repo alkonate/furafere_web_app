@@ -5,6 +5,7 @@ const autonumericalOptionsFcfa = {
     decimalCharacter : '.',
     digitGroupSeparator : ' ',
     decimalPlaces : 2,
+    watchExternalChanges : true
 };
 //error modal message template
 var errorMessage = '<div class="alert alert-warning alert-dismissible fade show" role="alert">'+
@@ -15,13 +16,13 @@ var errorMessage = '<div class="alert alert-warning alert-dismissible fade show"
                 '</div>';
 
 //add new custom prototype helper method on String
-//format string
+//format string by replacing all matches of a pattern
 String.prototype.format = function(data){
     return Object.keys(data).reduce((template,placeholder)=>{
         if(data[placeholder] == null){
             data[placeholder] = '';
         }
-        return template.replace(':'+placeholder,data[placeholder])},this);
+        return template.replaceAll(':'+placeholder,data[placeholder])},this);
 };
 
 //add new custom prototype helper method on String
@@ -73,8 +74,16 @@ function updateItemCount(count){
 function displayAllErrorMessages(messages) {
     Object.keys(messages).forEach((attr,index)=>{
         $('#'+attr).addClass('is-invalid');
-        $(errorMessage.format({message : messages[attr]})).insertAfter('#'+attr);
+        if($('#'+attr).next().hasClass('input-group-append')){
+            $(errorMessage.format({message : messages[attr]})).insertAfter($('#'+attr).parent());
+        }else{
+            $(errorMessage.format({message : messages[attr]})).insertAfter('#'+attr);
+        }
+
     });
+
+    Notyf.error(lang.helper['error : invalid fields']);
+    return;
 }
 
 /**
@@ -139,8 +148,7 @@ $('#deleteBtn').on('click',function (e) {
     e.preventDefault();
     $('#deleteBtn').toggle().after("<i class=\"fas fa-spinner fa-lg fa-fw\"></i>");
     let password = $('#deleteItemPasswordInput').val();
-
-    if(window.multipleItemDeleteFlag){
+    if(window.multipleStockDeleteFlag){
         var id = [];
         $('input[type=checkbox]:checked').each(function(){
         id.push($(this).attr('id'));
@@ -153,6 +161,26 @@ $('#deleteBtn').on('click',function (e) {
             deleteItemPasswordInput : password,
         };
 
+        //ajax post item data
+        ajaxItem(e,data,url);
+
+    }else if(window.stockItemDeleteFlag){
+        var url = $('#itemId0').attr('href');
+
+        var data = {
+            id : [window.stockItemIdTodelete],
+            deleteItemPasswordInput : password,
+        };
+
+        //ajax post item data
+        ajaxItem(e,data,url,undefined,function(result){
+            if(result.success){
+                // end of stock item delete turn the flag off
+                window.stockItemDeleteFlag = false;
+            }
+            onDoneDefault(result);
+        });
+
     }else{
         var url = window.href;
         var id = url.split('/');
@@ -164,15 +192,16 @@ $('#deleteBtn').on('click',function (e) {
             id : id,
             deleteItemPasswordInput : password,
         };
+
+        //ajax post item data
+        ajaxItem(e,data,url);
     }
 
-    //ajax post item data
-    ajaxItem(e,data,url);
 
 });
 
 //global variable setting the deleting mode to on or many
-window.multipleItemDeleteFlag = false;
+window.multipleStockDeleteFlag = false;
 
 /**
  * set the global variable multiple item deleting.
@@ -180,7 +209,7 @@ window.multipleItemDeleteFlag = false;
  * @return boolean
  */
 function setMultipleItemActionFlag(flag){
-    window.multipleItemDeleteFlag = flag;
+    window.multipleStockDeleteFlag = flag;
 }
 
 
@@ -194,7 +223,7 @@ function setMultipleItemActionFlag(flag){
 function fillModalWithItemData(data) {
     Object.keys(data).forEach((id) => {
         field = $('#'+id);
-        if(field.is('input') || field.is('textarea')){
+        if(field.is('input') || field.is('select') || field.is('textarea')){
             field = $('#'+id).val(data[id]);
         }else if(field.is('img')){
             document.getElementById(id).src = data[id];

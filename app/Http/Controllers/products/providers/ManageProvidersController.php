@@ -75,6 +75,18 @@ class ManageProvidersController extends Controller
        }
     }
 
+    /**
+     * Get all providers AJAX
+     * @return [type]
+     */
+    public function getAllProviders(){
+
+        $providers = DB::table('providers')->select(['id','name'])->get();
+        return response()->json([
+            'providers' => $providers,
+            ]);
+    }
+
 
     /**
      * Provider info AJAX

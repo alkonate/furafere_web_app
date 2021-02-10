@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\products\stocks;
 
-use App\Events\ProductStockLockedEvent;
+use App\Events\product\stock\StockLockedEvent;
 use App\Http\Controllers\Controller;
 use App\Stock;
 use Illuminate\Http\Request;
@@ -30,7 +30,7 @@ class LockStockController extends Controller
         if($stock->save()){
 
             //broadcast stock locked/unlocked event
-            broadcast(new ProductStockLockedEvent($stock));
+            broadcast(new StockLockedEvent($stock));
 
             return response()->json([
                 'error' => false,

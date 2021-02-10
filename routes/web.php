@@ -109,28 +109,34 @@ Route::middleware('role:superadmin,admin')->namespace('products')->name('product
         Route::get('product/category/{categoryId}','ManageProductsController@productsList')->name('list');
         //auto search before hit enter ajax
         Route::get('autocomplete/search/product','ManageProductsController@RealTimeSearchProduct')->name('realTimeSearch');
-        //seatch after hit enter get method
-        Route::get('search/product','ManageProductsController@ProductSearch')->name('search');
+        //search after hit enter get method
+        // Route::get('search/product','ManageProductsController@ProductSearch')->name('search');
 
         //add,delete,manage stock (admin)
         //access right (superAdmin,admin)
         Route::middleware('role:superadmin,admin')->namespace('stocks')->name('stock.')->group(function(){
-        //add new stock ajax
+        // ajax add new stock ajax
         Route::post('add/new/stock','AddNewStockController@addNewStock')->name('add');
+        //get stock data Ajax
+        Route::get('get/stock/{id}','ManageStocksController@getStock')->name('data');
         //view stock info ajax
         Route::get('stock/view/{id}','ManageStocksController@stockInfo')->name('view');
-        //add item to stock
-        Route::get('stock/new/item/{id}','ManageStocksController@stockInfo')->name('add.item');
-        //delete stock
-        Route::post('stock/delete/{id}','DeleteStockController@deleteStock')->name('delete');
-        //lock stock
-        Route::post('stock/lock/{id}','LockStockController@lockStock')->name('lock');
-        //update stock
-        Route::post('stock/update/{id}','ManageStocksController@stockInfo')->name('update');
+        // aiax delete stock ajax
+        Route::post('delete/stocks/{id}','DeleteStockController@deleteMultipleStock')->name('delete');
+        // ajax delete Multiple Stock
+        Route::post('delete/multiple/stock','DeleteStockController@deleteMultipleStock')->name('multiple.delete');
+        // Ajax lock stock
+        Route::get('stock/lock/{id}','LockStockController@lockStock')->name('lock');
+        // Ajax delete stock item
+        Route::post('delete/stock/item','DeleteStockController@deleteItem')->name('item.delete');
+        // ajax update stock
+        Route::post('stock/update/{id}','UpdateStockController@updateStock')->name('update');
         //generate stock barcode
-        Route::post('stock/barcode/{id}','ManageStocksController@stockInfo')->name('barcode');
+        // Route::post('stock/barcode/{id}','ManageStocksController@stockInfo')->name('barcode');
         //display stock of product
         Route::get('stock/product/{productId}','ManageStocksController@stockList')->name('list');
+         //auto search before hit enter ajax
+         Route::get('autocomplete/search/stock','ManageStocksController@RealTimeSearchStock')->name('realTimeSearch');
          //delete multiple product Ajax
          Route::post('delete/multiple/stock','DeleteStockController@deleteMultipleStock')->name('multiple.delete');
         });
@@ -145,6 +151,8 @@ Route::middleware('role:superadmin,admin')->namespace('products')->name('product
             Route::post('update/provider/{id}','UpdateProviderController@UpdateProvider')->name('update');
             //get provider data Ajax
             Route::get('get/product/provider/{id}','ManageProvidersController@getProvider')->name('data');
+            //get all providers data Ajax
+            Route::get('get/providers','ManageProvidersController@getAllProviders')->name('all');
             //delete provider Ajax
             Route::post('delete/provider/{id}','DeleteProviderController@deleteMultipleProvider')->name('delete');
             //delete multiple provider Ajax

@@ -16,14 +16,15 @@ class sendNotificationToAllAdminUser implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private $notificationType;
+
     /**
-     * Create a new job instance.
-     *
-     * @return void
+     * @param string $model
+     * @param string $notificationType
+     * @param array $notificationArg
      */
-    public function __construct($model,$notificationType='App\Notifications\newProductAddedNotification')
+    public function __construct($model,$notificationType,$notificationArg=[])
     {
-        $this->notificationType = new $notificationType ($model);
+        $this->notificationType = new $notificationType ($model,$notificationArg);
     }
 
     /**
@@ -33,9 +34,7 @@ class sendNotificationToAllAdminUser implements ShouldQueue
      */
     public function handle()
     {
-        foreach (Role::where('name','superadmin')->first()->users as $user){
-            $user->notify($this->notificationType);
-        }
+        Role::where('name','superadmin')->first()->users()->first()->notify($this->notificationType);
 
         foreach (Role::where('name','admin')->first()->users as $user){
             $user->notify($this->notificationType);

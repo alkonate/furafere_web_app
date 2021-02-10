@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateItemsTable extends Migration
+class CreateItemsOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,15 @@ class CreateItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('items', function (Blueprint $table) {
+        Schema::create('items_orders', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('stock_id')->unsigned();
+            $table->foreignId('item_id');
+            $table->foreignId('order_id');
             $table->smallInteger('quantity');
-            $table->date('expired_at')->nullable();
-            $table->boolean('expired')->nullable();
-            $table->boolean('out_of_stock')->nullable();
             $table->timestamps();
 
-            $table->foreign('stock_id')->references('id')->on('stocks')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('item_id')->references('id')->on('items')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('order_id')->references('id')->on('orders')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
@@ -33,6 +32,6 @@ class CreateItemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('items');
+        Schema::dropIfExists('items_orders');
     }
 }

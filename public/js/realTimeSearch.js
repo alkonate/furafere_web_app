@@ -3,14 +3,14 @@
   var minifyMosaicURI = minifyThumbnailURI;
    var searchProductURI = "/product/category/:categoryId";
    var searchProviderURI = "/product/providers";
-//    var searchStockURI = "/product/category/:categoryId";
+   var searchStockURI = "/stock/product/:productId";
    var searchCategoryURI = "/product/categories";
 
    var product = {
     display : "name",
     href : function (item) {
 
-        return searchProductURI.format({categoryId : item.type_id}) + "?search=" + item.name;
+        return searchProductURI.format({categoryId : item.type_id}) + "?stock=all&search=" + item.name;
     },
     template : function(query,item){
         var color = '#000';
@@ -28,11 +28,6 @@
                     '<div class="col-9 productName"> '+
                         '{{name}}' +
                     '</div>' +
-                    // '<div class="col-3"> '+
-                    //             '<small style="color:' + color +';">' +
-                    //             lang.realTimeSearch["Product"] +
-                    //             '</small>' +
-                    // '</div>' +
                 '</div>';
 
     },
@@ -49,7 +44,7 @@
     var category = {
         display : "type",
         href : function (item) {
-            return searchCategoryURI + "?search=" + item.type;
+            return searchCategoryURI + "?stock=all&search=" + item.type;
         },
         template : function(query,item){
             var color = '#000';
@@ -79,7 +74,7 @@
         var provider = {
             display : "name",
             href : function (item) {
-                return searchProviderURI + "?search=" + item.name;
+                return searchProviderURI + "?stock=all&search=" + item.name;
             },
             template : function(query,item){
                 var color = '#000';
@@ -105,13 +100,33 @@
                     }
                 }
             };
+
             var stock = {
-                display : "name",
+                display : "barcode",
+                href : function (item) {
+
+                    return searchStockURI.format({productId : item.product_id}) + "?stock=all&search=" + item.barcode;
+                },
+                template : function(query,item){
+                    var color = '#000';
+
+                    return '<div class="row">' +
+                                '<div class="col-9"> '+
+                                    '{{barcode}}' +
+                                '</div>' +
+                                '<div class="col-3"> '+
+                                    '<small style="color:' + color +';">' +
+                                        lang.realTimeSearch["Stock"] +
+                                    '</small>' +
+                                '</div>' +
+                            '</div>';
+
+                },
                 ajax : function(query){
                     return {
                         type : "GET",
-                        url : "/autocomplete/search/product",
-                        path : "product",
+                        url : "/autocomplete/search/stock",
+                        path : "stock",
                         data : { search : "{{query}}", },
                         }
                     }
@@ -142,7 +157,7 @@
         source : {
                    [lang.realTimeSearch["Product"]] : product,
                    [lang.realTimeSearch["Category"]] : category,
-                //    [lang.realTimeSearch["Stock"]] : stock,
+                   [lang.realTimeSearch["Stock"]] : stock,
                 [lang.realTimeSearch["Provider"]] : provider,
                 },
         //callback

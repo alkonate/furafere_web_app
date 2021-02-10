@@ -1,5 +1,6 @@
 
 function toggleStockVault(e){
+    e.preventDefault();
     var vaultBtn = $(e.currentTarget);
     var href = vaultBtn.attr('href');
 
@@ -10,7 +11,7 @@ function toggleStockVault(e){
             "X-CSRF-TOKEN" : $('meta[name="csrf-token"]').attr('content'),
             },
         url : href,
-        method : "POST",
+        method : "GET",
         contentType : "application/json",
 
     }).done(function(result){
@@ -23,7 +24,7 @@ function toggleStockVault(e){
 }
 
 //listen on admin channel
-Echo.private('App.User.admin').listen('ProductStockLockedEvent',(e)=>{
+Echo.private('App.User.admin').listen('.stockLockedEvent',(e)=>{
 
     let vault = $('a[href="'+ e.stockLocked +'"]');
 

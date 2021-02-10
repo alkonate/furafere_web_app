@@ -37,7 +37,7 @@ class UpdateProductController extends Controller
 
         if($product = Product::where('id',$productId)->first()){
 
-                if($product->name != $request->name && Product::where('name',$request->name)->first()){
+                if($product->name != $request->name && Product::where('name',$request->name)->exists()){
 
                     $messages = [
                         'Updatename' => __('validation.unique',['attribute'=>'name']),

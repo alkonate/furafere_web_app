@@ -16,19 +16,31 @@
                 <div class="notifications-wrapper overflow-auto">
 
                     @forelse (auth()->user()->unreadNotifications as $notification)
-
-                        {{-- notif almost out of stock!!! --}}
-
-                        {{-- notif new user account --}}
-
                         {{-- notif new product added --}}
+                        @if ($notification->type=="App\\Notifications\\newProductAddedNotification")
+                            <a href="#" class="content">
+                                <div class="notification-item row">
+                                    <img src="{{url($notification->data['product_thumbnail'])}}" alt="" class="mr-2">
+                                    <h4 class="item-title">{{$notification->data['product_name']}}</h4>
+                                    <p class="item-info">{{__('New product created')}}</p>
+                                </div>
+                            </a>
+                        @elseif ($notification->type=="App\\Notifications\\newStockAddedNotification")
+                        {{-- notif new stock --}}
                         <a href="#" class="content">
                             <div class="notification-item row">
                                 <img src="{{url($notification->data['product_thumbnail'])}}" alt="" class="mr-2">
                                 <h4 class="item-title">{{$notification->data['product_name']}}</h4>
-                                <p class="item-info">{{__('New product created')}}</p>
+                                <p class="item-info">{{__('New stock created')}}</p>
+                                <p class="item-info">{{$notification->data['item_count']}}</p>
                             </div>
                         </a>
+                        @elseif ($notification->type=="")
+                        {{-- notif warning almost out of stock --}}
+
+                        @endif
+                        {{-- notif new user account --}}
+
                     @empty
                     <a href="#" class="content no-notification">
                         <div class="notification-item">

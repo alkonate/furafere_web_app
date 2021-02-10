@@ -19,14 +19,16 @@
 
                        <div class="row justify-content-center">
 
-                        <button id="newProviderFormBtn" type="button" class="btn btn-light btn-new-item" data-toggle="modal" data-target="#modalAddProvider">
-                            <div class="card shadow rounded">
-                                <div class="card-body overflow-hidden">
-                                <i class="fas fa-folder-plus fa-10x" aria-hidden="true"></i>
+                        @if (!request()->has('search'))
+                            <button id="newProviderFormBtn" type="button" class="btn btn-light btn-new-item" data-toggle="modal" data-target="#modalAddProvider">
+                                <div class="card shadow rounded">
+                                    <div class="card-body overflow-hidden">
+                                    <i class="fas fa-folder-plus fa-10x" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="card-footer bg-success text-white">{{__('NEW PROVIDER')}}</div>
                                 </div>
-                                <div class="card-footer bg-success text-white">{{__('NEW PROVIDER')}}</div>
-                            </div>
-                        </button>
+                            </button>
+                        @endif
 
 
                     @foreach ($providers as $provider)

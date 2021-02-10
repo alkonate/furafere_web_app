@@ -33,17 +33,6 @@ var liveStreamConfig = {
     locate: true
 };
 
-// the fallback to the File system API requires extra inputStream option
-var fileConfig = $.extend(
-    {},
-    liveStreamConfig,
-    {
-        inputStream:{
-            size : 800
-        }
-    }
-    );
-
 // custom error message to display when something bad happen !
 var errorMessage = '<div class="alert alert-danger">'+
                         '<strong>'+
@@ -55,24 +44,24 @@ var errorMessage = '<div class="alert alert-danger">'+
 
 
 // start the live stream scanner when the modal show up
-$("#modalBarecodeReader").on('shown.bs.modal',function(){
+$("#modalBarecodeReader").on('show.bs.modal',function(){
 // initialize the barcode reader
-// Quagga.init(
-//     liveStreamConfig,
-//         function(err) {
-//             if (err) {
-//                 $("#modalBarecodeReader .modal-body .error").html(errorMessage.format({
-//                                         errName : err.name,
-//                                         errMessage : err.message
-//                                     }));
-//             console.log(err);
-//             Quagga.stop();
-//                 return;
-//             }
-//             Quagga.start();
-//             console.log(lang.barcodeReader["Initialization finished. Ready to start"]);
-//         }
-//         );
+Quagga.init(
+    liveStreamConfig,
+        function(err) {
+            if (err) {
+                $("#modalBarecodeReader .modal-body .error").html(errorMessage.format({
+                                        errName : err.name,
+                                        errMessage : err.message
+                                    }));
+            console.log(err);
+            Quagga.stop();
+                return;
+            }
+            Quagga.start();
+            console.log(lang.barcodeReader["Initialization finished. Ready to start"]);
+        }
+        );
 
 });
 
@@ -117,16 +106,6 @@ $('#modalBarecodeReader').on('hide.bs.modal', function(){
 if (Quagga){
     Quagga.stop();
 }
-});
-
-// Call Quagga.decodeSingle() for every file selected in the
-// file input
-$("#modalBarecodeReader input:file").on("change", function(e) {
-    if (e.target.files && e.target.files.length) {
-        Quagga.decodeSingle($.extend({}, fileConfig, {src: URL.createObjectURL(e.target.files[0])}), function(result) { console.log(result); if (result && result.codeResult && result.codeResult.code) {
-            console.log(result.codeResult.code);
-        }});
-    }
 });
 
 });

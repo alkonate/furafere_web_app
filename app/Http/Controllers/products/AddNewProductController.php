@@ -70,14 +70,13 @@ class AddNewProductController extends Controller
 
                 if($newProduct = Product::create($product)){
                     //start a new job of sending notification to all superadmin and admin
-                    sendNotificationToAllAdminUser::dispatch(($newProduct));
+                    sendNotificationToAllAdminUser::dispatch($newProduct,'App\Notifications\newProductAddedNotification');
                 }
 
         //use created event dispatcher in Product model
         // broadcast(new ProductCreatedEvent($productType));
 
         return response()->json(['success'=> true]);
-
 
     }
 
